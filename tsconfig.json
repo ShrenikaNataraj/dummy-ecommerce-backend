@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "lib": ["es5", "es6"],
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "rootDir": "./src",
+    "outDir": "build",
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "downlevelIteration": true
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"],
+  "exclude": ["**/__mocks__/*", "build", "m, "src/models/Product.js", "src/models/OrderItem.js", "src/models/OrderDetails.js", "src/models/index.js", "src/models/Category.js"igrations", "**/__test__"]
+}
