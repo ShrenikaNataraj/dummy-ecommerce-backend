@@ -1,5 +1,8 @@
 'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
+import { IModalOrderDetails as OrderDetailsAttributes } from '../types';
+
+//TODO:to use UUID for id
 module.exports = (sequelize, DataTypes) => {
   class OrderDetails extends Model {
     /**

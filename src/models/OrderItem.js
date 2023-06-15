@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
       this.o_id = this.belongsTo(models.OrderDetails, {
         foreignKey: 'o_id',
       });
+      this.p_id = this.belongsTo(models.Product, {
+        foreignKey: 'p_id',
+      });
     }
   }
   OrderItem.init(
