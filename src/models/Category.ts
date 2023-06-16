@@ -2,8 +2,7 @@
 import { Model, Optional } from 'sequelize';
 import { IModalCategory as CategoryModelAttributes } from '../types';
 
-export interface CategoryInput
-  extends Optional<CategoryModelAttributes, 'cat_id'> {}
+export interface CategoryInput extends Optional<CategoryModelAttributes, 'catId'> {}
 
 export interface CategoryOutput extends Required<CategoryModelAttributes> {}
 
@@ -17,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    cat_id!: number;
+    catId!: number;
     name: string;
     total: number;
 
@@ -27,11 +26,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   Category.init(
     {
-      cat_id: {
+      catId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER,
+        field: 'cat_id',
       },
       name: {
         allowNull: false,

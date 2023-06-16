@@ -1,30 +1,42 @@
 export interface IModalCategory {
-  cat_id: number;
+  catId: number;
   name: string;
   total: number;
 }
 
 export interface IModalProduct {
-  p_id: number;
-  cat_id: number;
+  pId: number;
+  catId: number;
   name: string;
-  price: string;
+  price: number;
   quantity: number;
   desc: string;
 }
 
 export interface IModalOrderDetails {
-  o_id: number;
-  created_at: Date;
-  updated_at: Date;
+  oId: number;
+  // createdAt?: Date;
+  // updatedAt?: Date;
   email: string;
-  total_price: number;
+  totalPrice: number;
 }
 
 export interface IModalOrderItem {
-  o_item_id: number;
-  o_id: number;
-  p_id: number;
+  oItemId: number;
+  oId: number;
+  pId: number;
   quantity: number;
   price: number;
+}
+
+export interface IOrderRequestEntity {
+  pId: number;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+export interface IOrderRequest {
+  email: string;
+  products: IOrderRequestEntity[];
 }

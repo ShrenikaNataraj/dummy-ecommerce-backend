@@ -2,7 +2,7 @@
 import { Model, Optional } from 'sequelize';
 import { IModalOrderItem as OrderItemAttributes } from '../types';
 
-export interface OrderItemInput extends Optional<OrderItemAttributes, 'o_id'> {}
+export interface OrderItemInput extends Optional<OrderItemAttributes, 'oId'> {}
 
 export interface OrderItemOutput extends Required<OrderItemAttributes> {}
 module.exports = (sequelize, DataTypes) => {
@@ -16,39 +16,41 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      *
      */
-    o_item_id: number;
-    p_id: number;
+    oItemId: number;
+    pId: number;
     quantity: number;
-    o_id: number;
+    oId: number;
     price: number;
     static associate(models) {
       // define association here
       OrderItem.belongsTo(models.OrderDetails, {
-        foreignKey: 'o_id',
+        foreignKey: 'oId',
       });
       OrderItem.belongsTo(models.Product, {
-        foreignKey: 'p_id',
+        foreignKey: 'pId',
       });
     }
   }
   OrderItem.init(
     {
       // id: DataTypes.INTEGER,
-      o_item_id: {
+      oItemId: {
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
         type: DataTypes.INTEGER,
+        field: 'o_item_id',
       },
-      o_id: {
+      oId: {
         allowNull: false,
         type: DataTypes.INTEGER,
+        field: 'o_id',
         references: {
           model: 'OrderDetails',
-          key: 'o_id',
+          key: 'oId',
         },
       },
-      p_id: {
+      pId: {
         type: DataTypes.INTEGER,
       },
       quantity: {

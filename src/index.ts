@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import db from './models';
 import { getAllProduct, getItemByKey } from './services/Product';
+import { createOrder } from './services/Order';
 
 const PORT = process.env.PORT || 3000;
 
@@ -20,9 +21,19 @@ app.use(cors());
 app.get('/data', async (req: any, res: any) => {
   // Return some sample data as the response
   try {
-    const channels = await getAllProduct();
-    const pro = await getItemByKey('cat_id', 1);
-    res.json(pro);
+    const channels = await createOrder({
+      email: 'abc@gmail.com',
+      products: [
+        {
+          pId: 1,
+          name: 'Vero Moda',
+          price: 24,
+          quantity: 1,
+        },
+      ],
+    });
+    const pro = await getItemByKey('catId', 1);
+    res.json(channels);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);

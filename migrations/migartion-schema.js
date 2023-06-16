@@ -66,12 +66,12 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-      created_at: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
       total_price: {
         type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      created_at: {
+        type: Sequelize.DATE,
         allowNull: false,
       },
       updated_at: {

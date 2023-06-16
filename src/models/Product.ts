@@ -2,38 +2,49 @@
 import { Optional, Model } from 'sequelize';
 import { IModalProduct as ProductAttributes } from '../types';
 
-export interface ProductInput extends Optional<ProductAttributes, 'p_id'> {}
+export interface ProductInput extends Optional<ProductAttributes, 'pId'> {}
 
 export interface ProductOutput extends Required<ProductAttributes> {}
 module.exports = (sequelize, DataTypes) => {
-  class Product extends Model {
+  class Product
+    extends Model<ProductInput, ProductAttributes>
+    implements ProductAttributes
+  {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    pId: number;
+    catId: number;
+    price: number;
+    desc: string;
+    name: string;
+    quantity: number;
     static associate(models) {
       // define association here
       Product.belongsTo(models.Category, {
-        foreignKey: 'cat_id',
+        foreignKey: 'catId',
       });
     }
   }
   Product.init(
     {
       // id: DataTypes.DataTypes.INTEGER,
-      p_id: {
+      pId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER,
+        field: 'p_id',
       },
-      cat_id: {
+      catId: {
         allowNull: false,
         type: DataTypes.INTEGER,
+        field: 'cat_id',
         references: {
           model: 'Category',
-          key: 'cat_id',
+          key: 'catId',
         },
       },
       quantity: {
