@@ -4,7 +4,7 @@ import { IModalOrderDetails as OrderDetailsAttributes } from '../types';
 
 //TODO:to use UUID for id
 export interface OrderDetailsInput
-  extends Optional<OrderDetailsAttributes, 'o_id'> {}
+  extends Optional<OrderDetailsAttributes, 'oId'> {}
 
 export interface OrderDetailsOutput extends Required<OrderDetailsAttributes> {}
 
@@ -18,11 +18,9 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    o_id!: number;
-    created_at: Date;
-    updated_at: Date;
+    oId!: number;
     email: string;
-    total_price: number;
+    totalPrice: number;
 
     static associate(models) {
       // define association here
@@ -30,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   OrderDetails.init(
     {
-      o_id: {
+      oId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -41,19 +39,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
       },
-      created_at: {
-        type: DataTypes.DATE,
-        field: 'created_at',
-        allowNull: false,
-      },
-      total_price: {
+      totalPrice: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      updated_at: {
-        allowNull: false,
-        field: 'updated_at',
-        type: DataTypes.DATE,
+        field: 'total_price',
       },
     },
     {
