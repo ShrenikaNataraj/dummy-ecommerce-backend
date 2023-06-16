@@ -1,5 +1,10 @@
 'use strict';
-const { Model } = require('sequelize');
+import { Optional, Model } from 'sequelize';
+import { IModalProduct as ProductAttributes } from '../types';
+
+export interface ProductInput extends Optional<ProductAttributes, 'p_id'> {}
+
+export interface ProductOutput extends Required<ProductAttributes> {}
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
     /**
@@ -9,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.cat_id = this.belongsTo(models.Category, {
+      Product.belongsTo(models.Category, {
         foreignKey: 'cat_id',
       });
     }
@@ -50,6 +55,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
+      timestamps: false,
       modelName: 'Product',
       tableName: 'Product',
       freezeTableName: true,

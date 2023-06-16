@@ -1,18 +1,32 @@
 'use strict';
-const { Model } = require('sequelize');
+import { Model, Optional } from 'sequelize';
+import { IModalOrderItem as OrderItemAttributes } from '../types';
+
+export interface OrderItemInput extends Optional<OrderItemAttributes, 'o_id'> {}
+
+export interface OrderItemOutput extends Required<OrderItemAttributes> {}
 module.exports = (sequelize, DataTypes) => {
-  class OrderItem extends Model {
+  class OrderItem
+    extends Model<OrderItemInput, OrderItemAttributes>
+    implements OrderItemAttributes
+  {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
+     *
      */
+    o_item_id: number;
+    p_id: number;
+    quantity: number;
+    o_id: number;
+    price: number;
     static associate(models) {
       // define association here
-      this.o_id = this.belongsTo(models.OrderDetails, {
+      OrderItem.belongsTo(models.OrderDetails, {
         foreignKey: 'o_id',
       });
-      this.p_id = this.belongsTo(models.Product, {
+      OrderItem.belongsTo(models.Product, {
         foreignKey: 'p_id',
       });
     }
@@ -22,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       // id: DataTypes.INTEGER,
       o_item_id: {
         allowNull: false,
+        primaryKey: true,
         autoIncrement: true,
         type: DataTypes.INTEGER,
       },
@@ -31,7 +46,6 @@ module.exports = (sequelize, DataTypes) => {
         references: {
           model: 'OrderDetails',
           key: 'o_id',
-          allowNull: false,
         },
       },
       p_id: {
@@ -48,6 +62,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
+      timestamps: false,
       modelName: 'OrderItem',
       tableName: 'OrderItem',
       freezeTableName: true,
