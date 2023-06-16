@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import db from './models';
+import { getAllProduct, getItemByKey } from './services/Product';
 
 const PORT = process.env.PORT || 3000;
 
@@ -15,11 +17,16 @@ app.use(express.json());
 app.use(cors());
 
 // Set up a API call with GET method
-app.get('/data', (req: any, res: any) => {
+app.get('/data', async (req: any, res: any) => {
   // Return some sample data as the response
-  res.json({
-    message: 'Hello, world!',
-  });
+  try {
+    const channels = await getAllProduct();
+    const pro = await getItemByKey('cat_id', 1);
+    res.json(pro);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
 });
 
 // Start the server on port configured in .env (recommend port 8000)

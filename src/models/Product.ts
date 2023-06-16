@@ -1,25 +1,20 @@
 'use strict';
-import { Model } from 'sequelize';
-import { IModalProduct as ProductModal } from '../types';
+import { Optional, Model } from 'sequelize';
+import { IModalProduct as ProductAttributes } from '../types';
+
+export interface ProductInput extends Optional<ProductAttributes, 'p_id'> {}
+
+export interface ProductOutput extends Required<ProductAttributes> {}
 module.exports = (sequelize, DataTypes) => {
-  class Product extends Model<ProductModal> implements ProductModal {
+  class Product extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-
-    p_id: number;
-    cat_id: number;
-    name: string;
-    price: string;
-    quantity: number;
-    desc: string;
-    static cat_id: any;
-    
     static associate(models) {
       // define association here
-      this.cat_id = this.belongsTo(models.Category, {
+      Product.belongsTo(models.Category, {
         foreignKey: 'cat_id',
       });
     }
@@ -60,6 +55,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
+      timestamps: false,
       modelName: 'Product',
       tableName: 'Product',
       freezeTableName: true,

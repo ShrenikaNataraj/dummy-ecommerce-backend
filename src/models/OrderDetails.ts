@@ -1,15 +1,29 @@
 'use strict';
-import { Model } from 'sequelize';
+import { Model, Optional } from 'sequelize';
 import { IModalOrderDetails as OrderDetailsAttributes } from '../types';
 
 //TODO:to use UUID for id
+export interface OrderDetailsInput
+  extends Optional<OrderDetailsAttributes, 'o_id'> {}
+
+export interface OrderDetailsOutput extends Required<OrderDetailsAttributes> {}
+
 module.exports = (sequelize, DataTypes) => {
-  class OrderDetails extends Model {
+  class OrderDetails
+    extends Model<OrderDetailsAttributes, OrderDetailsInput>
+    implements OrderDetailsAttributes
+  {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+    o_id!: number;
+    created_at: Date;
+    updated_at: Date;
+    email: string;
+    total_price: number;
+
     static associate(models) {
       // define association here
     }
@@ -44,6 +58,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
+      underscored: true,
       modelName: 'OrderDetails',
       tableName: 'OrderDetails',
       freezeTableName: true,

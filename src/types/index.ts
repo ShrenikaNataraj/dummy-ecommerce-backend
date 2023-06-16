@@ -15,10 +15,10 @@ export interface IModalProduct {
 
 export interface IModalOrderDetails {
   o_id: number;
-  created_at: string;
-  updated_at: string;
+  created_at: Date;
+  updated_at: Date;
   email: string;
-  total_price: string;
+  total_price: number;
 }
 
 export interface IModalOrderItem {
