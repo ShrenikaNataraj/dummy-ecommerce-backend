@@ -1,12 +1,22 @@
 'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
+import { IModalProduct as ProductModal } from '../types';
 module.exports = (sequelize, DataTypes) => {
-  class Product extends Model {
+  class Product extends Model<ProductModal> implements ProductModal {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+
+    p_id: number;
+    cat_id: number;
+    name: string;
+    price: string;
+    quantity: number;
+    desc: string;
+    static cat_id: any;
+    
     static associate(models) {
       // define association here
       this.cat_id = this.belongsTo(models.Category, {
