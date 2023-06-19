@@ -64,7 +64,6 @@ module.exports = {
       email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
       total_price: {
         type: Sequelize.INTEGER,
@@ -89,13 +88,14 @@ module.exports = {
       },
       o_id: {
         allowNull: false,
-        autoIncrement: true,
         type: Sequelize.INTEGER,
         references: {
           model: 'OrderDetails',
           key: 'o_id',
           allowNull: false,
         },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       p_id: {
         type: Sequelize.INTEGER,

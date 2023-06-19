@@ -22,9 +22,13 @@ module.exports = (sequelize, DataTypes) => {
     email: string;
     totalPrice: number;
 
-    static associate(models) {
-      // define association here
-    }
+    // static associate(models) {
+    //   OrderDetails.hasMany(models.OrderItem),
+    //     {
+    //       foreignKey: 'oId',
+    //     };
+    //   // define association here
+    // }
   }
   OrderDetails.init(
     {
@@ -37,7 +41,6 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
       },
       totalPrice: {
         type: DataTypes.INTEGER,
