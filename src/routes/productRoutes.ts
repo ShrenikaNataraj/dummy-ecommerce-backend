@@ -3,6 +3,6 @@ import { listProducts } from '../services/Product'
 
 export const productRoute = Router();
 
-productRoute.get('/products', async (req, res) => {
+productRoute.get('/products', async (req:Request, res:Response) => {
     await listProducts(req,res);
 })

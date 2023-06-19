@@ -3,7 +3,7 @@ import db from '../models';
 import { camelCaseToSnakeCase } from '../utility';
 import { Op } from 'sequelize';
 import { paginate } from '../utility/paginate';
-const ProductModel = require('../models/Product.ts')
+import { Request, Response } from 'express';
 
 export const getAllProduct = async (): Promise<ProductOutput[]> => {
   let allProducts = await db.Product.findAll({ raw: true });
@@ -25,7 +25,7 @@ export const getItemByKey = async (
   return data;
 };
 
-export const listProducts = async(req, res) => {
+export const listProducts = async(req:Request, res:Response) => {
   try {
       // get the query params
       const { q, page, limit, order_by, order_direction } = req.query;
