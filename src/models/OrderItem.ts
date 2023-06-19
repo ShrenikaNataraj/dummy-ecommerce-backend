@@ -2,9 +2,9 @@
 import { Model, Optional } from 'sequelize';
 import { IModalOrderItem as OrderItemAttributes } from '../types';
 
-export interface OrderItemInput extends Optional<OrderItemAttributes, 'oId'> {}
+export interface OrderItemInput
+  extends Optional<OrderItemAttributes, 'oItemId'> {}
 
-export interface OrderItemOutput extends Required<OrderItemAttributes> {}
 module.exports = (sequelize, DataTypes) => {
   class OrderItem
     extends Model<OrderItemInput, OrderItemAttributes>
@@ -17,10 +17,11 @@ module.exports = (sequelize, DataTypes) => {
      *
      */
     oItemId: number;
+    oId: number;
     pId: number;
     quantity: number;
-    oId: number;
     price: number;
+
     static associate(models) {
       // define association here
       OrderItem.belongsTo(models.OrderDetails, {
@@ -52,6 +53,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       pId: {
         type: DataTypes.INTEGER,
+        field: 'p_id',
       },
       quantity: {
         type: DataTypes.INTEGER,

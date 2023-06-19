@@ -22,12 +22,18 @@ app.get('/data', async (req: any, res: any) => {
   // Return some sample data as the response
   try {
     const channels = await createOrder({
-      email: 'abc@gmail.com',
+      email: 'xyz@gmail.com',
       products: [
         {
           pId: 1,
           name: 'Vero Moda',
           price: 24,
+          quantity: 1,
+        },
+        {
+          pId: 2,
+          name: 'Zara',
+          price: 2400,
           quantity: 1,
         },
       ],
