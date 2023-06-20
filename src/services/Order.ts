@@ -20,7 +20,7 @@ export const createOrder = async (data: IOrderRequest): Promise<any> => {
       })
     );
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -31,7 +31,11 @@ export const deleteOrder = async (orderID: number) => {
 export const getOrderHistory = async (
   email: string
 ): Promise<OrderDetailsOutput[]> => {
-  return await db.OrderDetails.finAdAll({ where: { email: email }, raw: true });
+  return await db.OrderDetails.findAll({
+    where: { email },
+    order: [['updated_at', 'desc']],
+    raw: true,
+  });
 };
 
 export const getOrderDetails = async (

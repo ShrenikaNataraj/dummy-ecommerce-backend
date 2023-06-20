@@ -2,7 +2,7 @@
   "name": "dummy-ecommerce-backend",
   "version": "1.0.0",
   "description": "ecommerce BE",
-  "main": "src/index.ts",
+  "main": "build/index.js",
   "scripts": {
     "prebuild": "rm -rf build",
     "build": "tsc",
