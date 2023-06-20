@@ -1,4 +1,6 @@
-export const paginate = async (model, pageSize, pageLimit, search = {}, order = []) => {
+import { IPaginateReturnValue } from "../types";
+
+export const paginate = async (model, pageSize, pageLimit, search = {}, order = []):Promise<IPaginateReturnValue> => {
     try {
         const limit = parseInt(pageLimit, 10) || 10;
         const page = parseInt(pageSize, 10) || 1;

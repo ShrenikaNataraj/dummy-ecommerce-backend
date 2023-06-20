@@ -6,7 +6,7 @@ import { paginate } from '../utility/paginate';
 import { Request, Response } from 'express';
 
 export const getAllProduct = async (): Promise<ProductOutput[]> => {
-  let allProducts = await db.Product.findAll({ raw: true });
+  let allProducts:ProductOutput[] = await db.Product.findAll({ raw: true });
   return allProducts;
 };
 
