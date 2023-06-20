@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import db from './models';
+import { routes } from './routes';
 import { getAllProduct, getItemByKey } from './services/Product';
 import { createOrder, deleteOrder } from './services/Order';
 
@@ -16,6 +17,8 @@ app.use(express.json());
 
 // Configure cors policy
 app.use(cors());
+
+app.use('/', routes)
 
 // Set up a API call with GET method
 app.get('/data', async (req: any, res: any) => {
