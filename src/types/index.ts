@@ -1,3 +1,5 @@
+import { Op } from "sequelize";
+
 export interface IModalCategory {
   catId: number;
   name: string;
@@ -39,4 +41,13 @@ export interface IOrderRequestEntity {
 export interface IOrderRequest {
   email: string;
   products: IOrderRequestEntity[];
+}
+
+export interface IPaginateReturnValue {
+  previousPage: number | null,
+  currentPage: number,
+  nextPage: number | null,
+  total: number,
+  limit: number,
+  data: IModalProduct[]
 }
