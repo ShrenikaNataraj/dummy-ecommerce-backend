@@ -25,8 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       OrderDetails.hasMany(models.OrderItem, {
         foreignKey: 'oId',
-      })
-        
+      });
       // define association here
     }
   }

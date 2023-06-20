@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import db from './models';
 import { routes } from './routes';
 import { getAllProduct, getItemByKey } from './services/Product';
-import { createOrder } from './services/Order';
+import { createOrder, deleteOrder } from './services/Order';
 
 const PORT = process.env.PORT || 3000;
 
@@ -41,8 +41,9 @@ app.get('/data', async (req: any, res: any) => {
         },
       ],
     });
-    const pro = await getItemByKey('catId', 1);
-    res.json(channels);
+    // const res = await deleteOrder(1);
+    // const pro = await getItemByKey('catId', 1);
+    res.json(res);
   } catch (err) {
     console.log(err);
     res.status(500).json(err);

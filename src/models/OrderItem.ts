@@ -5,6 +5,8 @@ import { IModalOrderItem as OrderItemAttributes } from '../types';
 export interface OrderItemInput
   extends Optional<OrderItemAttributes, 'oItemId'> {}
 
+export interface OrderItemOutput extends OrderItemAttributes {}
+
 module.exports = (sequelize, DataTypes) => {
   class OrderItem
     extends Model<OrderItemInput, OrderItemAttributes>
@@ -26,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       OrderItem.belongsTo(models.OrderDetails, {
         foreignKey: 'oId',
+        onDelete: 'CASCADE',
       });
       OrderItem.belongsTo(models.Product, {
         foreignKey: 'pId',
