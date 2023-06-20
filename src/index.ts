@@ -1,9 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import db from './models';
 import { routes } from './routes';
-import { getItemByKey } from './services/Product';
 
 const PORT = process.env.PORT || 3000;
 
