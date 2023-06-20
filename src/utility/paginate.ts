@@ -1,4 +1,4 @@
-export const paginate = async (db, pageSize, pageLimit, search = {}, order = []) => {
+export const paginate = async (model, pageSize, pageLimit, search = {}, order = []) => {
     try {
         const limit = parseInt(pageLimit, 10) || 10;
         const page = parseInt(pageSize, 10) || 1;
@@ -20,7 +20,7 @@ export const paginate = async (db, pageSize, pageLimit, search = {}, order = [])
         }
 
         // take in the model, take in the options
-        let {count, rows} = await db.Product.findAndCountAll(options);
+        let {count, rows} = await model.findAndCountAll(options);
 
         return {
             previousPage: getPreviousPage(page),

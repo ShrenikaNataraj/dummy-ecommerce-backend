@@ -50,7 +50,7 @@ export const listProducts = async(req:Request, res:Response) => {
       }
 
       // paginate method that takes in the model, page, limit, search object, order and transform
-      const products = await paginate(db, page, limit, search, order);
+      const products = await paginate(db.Product, page, limit, search, order);
 
       return res.status(200).send({
           success: true,

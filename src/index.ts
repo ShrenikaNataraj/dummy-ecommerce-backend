@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import db from './models';
 import { routes } from './routes';
 import { getAllProduct, getItemByKey } from './services/Product';
+import { createOrder } from './services/Order';
 
 const PORT = process.env.PORT || 3000;
 
