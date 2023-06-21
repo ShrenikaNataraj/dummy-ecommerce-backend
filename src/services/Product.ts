@@ -4,7 +4,8 @@ import { camelCaseToSnakeCase, paginate } from '../utility';
 import { Op } from 'sequelize';
 
 import { Request, Response } from 'express';
-import { IPaginateReturnValue, IRequestQueryParams, ISearchQuery } from '../types';
+import { IPaginateReturnValue, IRequestQueryParams, ISearchQuery, StatusCodes } from '../types';
+import { HttpError } from '../routes/helper/helper';
 
 export const getItemByKey = async (
   key: string,
@@ -25,7 +26,7 @@ export const listProducts = async(req:Request<{}, {}, {}, IRequestQueryParams>, 
   try {
       // get the query params
       const { q, page, limit, order_by, order_direction } = req.query;
-      
+
       let search:ISearchQuery;
       let order = [];
 
@@ -49,7 +50,7 @@ export const listProducts = async(req:Request<{}, {}, {}, IRequestQueryParams>, 
       const products:IPaginateReturnValue = await paginate(db.Product, Number(page), Number(limit), search, order);
 
       if((products.data.length) === 0) {
-        throw new Error('Product not found')
+        throw new HttpError("Product not found", 404)
       }
 
       return res.status(200).send({
@@ -59,9 +60,9 @@ export const listProducts = async(req:Request<{}, {}, {}, IRequestQueryParams>, 
       })
   } catch (error) {
       console.log('Failed to fetch products', error);
-      return res.status(500).send({
+      return res.status(error.statusCode).send({
           success: false,
-          message: 'Failed to fetch products'
+          message: error.message
       })
   }
 }
