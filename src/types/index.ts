@@ -67,3 +67,9 @@ export interface ISearchQuery {
     }
   }
 }
+
+export enum StatusCodes {
+  NOT_FOUND = 404,
+  SERVER_ERROR = 500,
+  USER_ERROR = 400,
+}
