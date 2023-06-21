@@ -9,6 +9,7 @@ export interface IModalCategory {
 export interface IModalProduct {
   pId: number;
   catId: number;
+  catName: string;
   name: string;
   price: number;
   quantity: number;
@@ -62,7 +63,7 @@ export interface IRequestQueryParams {
 
 export interface ISearchQuery {
   where: {
-    name: {
+    name?: {
         [Op.iLike]: string
     }
   }

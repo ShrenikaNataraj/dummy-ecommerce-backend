@@ -34,18 +34,18 @@ export const listProducts = async(req:Request<{}, {}, {}, IRequestQueryParams>, 
       if (q) {
           search = {
               where: {
-                  name: {
+                 name : {
                       [Op.iLike]: `%${q}%`
-                  }
+                 }
               }
           };
       }
 
       // add the order parameters to the order
       if (order_by && order_direction) {
-          order.push([order_by, order_direction]);
+        order.push([camelCaseToSnakeCase(order_by), order_direction]);
       }
-
+      
       // paginate method that takes in the model, page, limit, search object, order and transform
       const products:IPaginateReturnValue = await paginate(db.Product, Number(page), Number(limit), search, order);
 
