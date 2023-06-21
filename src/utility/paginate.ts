@@ -1,6 +1,6 @@
-import { IPaginateReturnValue } from "../types";
+import { ProductOutput } from "../models/Product";
 
-export const paginate = async (model, pageSize, pageLimit, search = {}, order = []):Promise<IPaginateReturnValue> => {
+export const paginate = async (model, pageSize, pageLimit, search = {}, order = []) => {
     try {
         const limit = parseInt(pageLimit, 10) || 10;
         const page = parseInt(pageSize, 10) || 1;
@@ -22,7 +22,7 @@ export const paginate = async (model, pageSize, pageLimit, search = {}, order = 
         }
 
         // take in the model, take in the options
-        let {count, rows} = await model.findAndCountAll(options);
+        let {count, rows}:{count:number, rows:ProductOutput[]} = await model.findAndCountAll(options);
 
         return {
             previousPage: getPreviousPage(page),
@@ -37,11 +37,11 @@ export const paginate = async (model, pageSize, pageLimit, search = {}, order = 
     }
 }
 
-const getOffset = (page, limit) => {
+const getOffset = (page:number, limit:number):number => {
  return (page * limit) - limit;
 }
 
-const getNextPage = (page, limit, total) => {
+const getNextPage = (page:number, limit:number, total:number):number => {
     if ((total/limit) > page) {
         return page + 1;
     }
@@ -49,7 +49,7 @@ const getNextPage = (page, limit, total) => {
     return null
 }
 
-const getPreviousPage = (page) => {
+const getPreviousPage = (page:number):number => {
     if (page <= 1) {
         return null
     }

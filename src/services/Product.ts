@@ -4,13 +4,14 @@ import { camelCaseToSnakeCase } from '../utility';
 import { Op } from 'sequelize';
 import { paginate } from '../utility/paginate';
 import { Request, Response } from 'express';
+import { IPaginateReturnValue, IRequestQueryParams, ISearchQuery } from '../types';
 
 export const getItemByKey = async (
   key: string,
   val: string | number
 ): Promise<ProductOutput[]> => {
   let keyVal = camelCaseToSnakeCase(key);
-  let data = await db.Product.findAll({
+  let data:ProductOutput[] = await db.Product.findAll({
     where: {
       [keyVal]: val,
     },
@@ -20,12 +21,12 @@ export const getItemByKey = async (
   return data;
 };
 
-export const listProducts = async(req:Request, res:Response) => {
+export const listProducts = async(req:Request<{}, {}, {}, IRequestQueryParams>, res:Response) => {
   try {
       // get the query params
       const { q, page, limit, order_by, order_direction } = req.query;
 
-      let search = {};
+      let search:ISearchQuery;
       let order = [];
 
       // add the search term to the search object
@@ -45,7 +46,11 @@ export const listProducts = async(req:Request, res:Response) => {
       }
 
       // paginate method that takes in the model, page, limit, search object, order and transform
-      const products = await paginate(db.Product, page, limit, search, order);
+      const products:IPaginateReturnValue = await paginate(db.Product, page, limit, search, order);
+
+      if((products.data.length) === 0) {
+        throw new Error('Product not found')
+      }
 
       return res.status(200).send({
           success: true,

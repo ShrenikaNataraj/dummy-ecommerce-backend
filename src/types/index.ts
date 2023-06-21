@@ -51,3 +51,19 @@ export interface IPaginateReturnValue {
   limit: number,
   data: IModalProduct[]
 }
+
+export interface IRequestQueryParams {
+  q:string, 
+  page:number, 
+  limit:number, 
+  order_by:string, 
+  order_direction:string
+}
+
+export interface ISearchQuery {
+  where: {
+    name: {
+        [Op.iLike]: string
+    }
+  }
+}
