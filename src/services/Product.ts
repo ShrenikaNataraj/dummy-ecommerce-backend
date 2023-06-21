@@ -1,8 +1,8 @@
 import { ProductInput, ProductOutput } from '../models/Product';
 import db from '../models';
-import { camelCaseToSnakeCase } from '../utility';
+import { camelCaseToSnakeCase, paginate } from '../utility';
 import { Op } from 'sequelize';
-import { paginate } from '../utility/paginate';
+
 import { Request, Response } from 'express';
 import { IPaginateReturnValue, IRequestQueryParams, ISearchQuery } from '../types';
 
@@ -25,7 +25,7 @@ export const listProducts = async(req:Request<{}, {}, {}, IRequestQueryParams>, 
   try {
       // get the query params
       const { q, page, limit, order_by, order_direction } = req.query;
-
+      
       let search:ISearchQuery;
       let order = [];
 
@@ -46,7 +46,7 @@ export const listProducts = async(req:Request<{}, {}, {}, IRequestQueryParams>, 
       }
 
       // paginate method that takes in the model, page, limit, search object, order and transform
-      const products:IPaginateReturnValue = await paginate(db.Product, page, limit, search, order);
+      const products:IPaginateReturnValue = await paginate(db.Product, Number(page), Number(limit), search, order);
 
       if((products.data.length) === 0) {
         throw new Error('Product not found')
