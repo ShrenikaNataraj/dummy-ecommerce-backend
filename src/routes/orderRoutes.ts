@@ -8,6 +8,16 @@ import {
 
 export const orderRoute = Router();
 
+orderRoute.post('/', async (req: Request, res: Response) => {
+  try {
+    const response = await createOrder(req.body);
+    res.json(response);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
 orderRoute.get('/orderHistory/:email', async (req: Request, res: Response) => {
   try {
     const emailId = req.params.email;
@@ -37,5 +47,7 @@ orderRoute.delete('/:orderId', async (req: Request, res: Response) => {
     res.status(200).json({
       message: 'Successful',
     });
-  } catch {}
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
