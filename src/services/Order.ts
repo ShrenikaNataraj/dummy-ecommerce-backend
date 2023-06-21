@@ -9,7 +9,7 @@ const checkIfProductOutOfStock = async (products: IOrderRequestEntity[]) => {
   for (let product of products) {
     let productItem = await getItemByKey('p_id', product.pId);
     if (productItem[0].quantity < product.quantity)
-      throw new HttpError('Out Of Stock', 400);
+      throw new HttpError('Out Of Stock', StatusCodes.USER_ERROR);
   }
 };
 
@@ -45,7 +45,10 @@ export const createOrder = async (data: IOrderRequest): Promise<number> => {
     }
     return res.dataValues.oId;
   } catch (e) {
-    throw e;
+    if (e instanceof HttpError) throw e;
+    else {
+      throw new HttpError('Something went Wrong', StatusCodes.SERVER_ERROR);
+    }
   }
 };
 
@@ -62,7 +65,7 @@ export const deleteOrder = async (orderID: number) => {
       });
     }
   } catch (e) {
-    throw new HttpError('Something went Wrong', 500);
+    throw new HttpError('Something went Wrong', StatusCodes.SERVER_ERROR);
   }
 };
 
@@ -76,7 +79,7 @@ export const getOrderHistory = async (
       raw: true,
     });
   } catch (e) {
-    throw new HttpError('Something went Wrong', 500);
+    throw new HttpError('Something went Wrong', StatusCodes.SERVER_ERROR);
   }
 };
 
@@ -86,6 +89,6 @@ export const getOrderDetails = async (
   try {
     return await db.OrderItem.findAll({ where: { o_id: orderId }, raw: true });
   } catch (e) {
-    throw new HttpError('Something went Wrong', 500);
+    throw new HttpError('Something went Wrong', StatusCodes.SERVER_ERROR);
   }
 };
