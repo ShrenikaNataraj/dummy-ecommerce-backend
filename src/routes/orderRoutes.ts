@@ -26,7 +26,7 @@ orderRoute.get('/orderHistory/:email', async (req: Request, res: Response) => {
     const response = await getOrderHistory(emailId);
     res.json(response);
   } catch (err) {
-    res.status(err.status).json(err.Error);
+    res.status(err.statusCode).json(err.message);
   }
 });
 
@@ -36,7 +36,7 @@ orderRoute.get('/:orderId', async (req: Request, res: Response) => {
     const response = await getOrderDetails(orderId);
     res.json(response);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(err.statusCode).json(err.message);
   }
 });
 
@@ -49,6 +49,6 @@ orderRoute.delete('/:orderId', async (req: Request, res: Response) => {
       message: 'Successfully Deleted!!',
     });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(err.statusCode).json(err.message);
   }
 });
