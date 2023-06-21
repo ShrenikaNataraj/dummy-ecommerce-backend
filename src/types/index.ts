@@ -51,3 +51,9 @@ export interface IPaginateReturnValue {
   limit: number,
   data: IModalProduct[]
 }
+
+export enum StatusCodes {
+  NOT_FOUND = 404,
+  SERVER_ERROR = 500,
+  USER_ERROR = 400,
+}

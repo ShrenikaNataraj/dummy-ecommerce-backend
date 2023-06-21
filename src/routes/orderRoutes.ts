@@ -1,4 +1,4 @@
-import express, { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import {
   getOrderDetails,
   getOrderHistory,
@@ -11,10 +11,12 @@ export const orderRoute = Router();
 orderRoute.post('/', async (req: Request, res: Response) => {
   try {
     const response = await createOrder(req.body);
-    res.json(response);
+    res.json({
+      oId: response,
+      message: 'Successfully Created!!',
+    });
   } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
+    res.status(err.statusCode).send(err.message);
   }
 });
 
@@ -24,8 +26,7 @@ orderRoute.get('/orderHistory/:email', async (req: Request, res: Response) => {
     const response = await getOrderHistory(emailId);
     res.json(response);
   } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
+    res.status(err.status).json(err.Error);
   }
 });
 
@@ -35,7 +36,6 @@ orderRoute.get('/:orderId', async (req: Request, res: Response) => {
     const response = await getOrderDetails(orderId);
     res.json(response);
   } catch (err) {
-    console.log(err);
     res.status(500).json(err);
   }
 });
@@ -45,7 +45,8 @@ orderRoute.delete('/:orderId', async (req: Request, res: Response) => {
     const orderId = Number(req.params.orderId);
     await deleteOrder(orderId);
     res.status(200).json({
-      message: 'Successful',
+      orderId,
+      message: 'Successfully Deleted!!',
     });
   } catch (err) {
     res.status(500).json(err);

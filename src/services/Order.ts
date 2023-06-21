@@ -1,18 +1,19 @@
-import { OrderDetailsInput, OrderDetailsOutput } from '../models/OrderDetails';
-import { OrderItemInput, OrderItemOutput } from '../models/OrderItem';
+import { OrderDetailsOutput } from '../models/OrderDetails';
+import { OrderItemOutput } from '../models/OrderItem';
 import db from '../models';
-import { IOrderRequest, IOrderRequestEntity } from '../types';
+import { IOrderRequest, IOrderRequestEntity, StatusCodes } from '../types';
 import { getItemByKey } from './Product';
+import { HttpError } from '../routes/helper/helper';
 
 const checkIfProductOutOfStock = async (products: IOrderRequestEntity[]) => {
   for (let product of products) {
     let productItem = await getItemByKey('p_id', product.pId);
     if (productItem[0].quantity < product.quantity)
-      throw new Error('Out of Stock');
+      throw new HttpError('Out Of Stock', 400);
   }
 };
 
-export const createOrder = async (data: IOrderRequest): Promise<any> => {
+export const createOrder = async (data: IOrderRequest): Promise<number> => {
   const Op = require('sequelize').Op;
 
   try {
@@ -42,8 +43,9 @@ export const createOrder = async (data: IOrderRequest): Promise<any> => {
         by: product.quantity,
       });
     }
+    return res.dataValues.oId;
   } catch (e) {
-    throw Error(e);
+    throw e;
   }
 };
 
@@ -60,22 +62,30 @@ export const deleteOrder = async (orderID: number) => {
       });
     }
   } catch (e) {
-    throw Error(e);
+    throw new HttpError('Something went Wrong', 500);
   }
 };
 
 export const getOrderHistory = async (
   email: string
 ): Promise<OrderDetailsOutput[]> => {
-  return await db.OrderDetails.findAll({
-    where: { email },
-    order: [['updated_at', 'desc']],
-    raw: true,
-  });
+  try {
+    return await db.OrderDetails.findAll({
+      where: { email },
+      order: [['updated_at', 'desc']],
+      raw: true,
+    });
+  } catch (e) {
+    throw new HttpError('Something went Wrong', 500);
+  }
 };
 
 export const getOrderDetails = async (
   orderId: number
 ): Promise<OrderItemOutput[]> => {
-  return await db.OrderItem.findAll({ where: { o_id: orderId }, raw: true });
+  try {
+    return await db.OrderItem.findAll({ where: { o_id: orderId }, raw: true });
+  } catch (e) {
+    throw new HttpError('Something went Wrong', 500);
+  }
 };
