@@ -33,7 +33,7 @@ export const listProducts = async(req:Request, res:Response) => {
           search = {
               where: {
                   name: {
-                      [Op.like]: `%${q}%`
+                      [Op.iLike]: `%${q}%`
                   }
               }
           };
