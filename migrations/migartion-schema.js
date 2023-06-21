@@ -37,6 +37,11 @@ module.exports = {
           allowNull: false,
         },
       },
+      catName: {
+        allowNull: false,
+        type: Sequelize.STRING,
+        field: 'cat_name',
+      },
       quantity: {
         allowNull: false,
         type: Sequelize.INTEGER,
