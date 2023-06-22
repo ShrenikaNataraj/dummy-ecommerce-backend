@@ -1,16 +1,18 @@
 import { ProductInput, ProductOutput } from '../models/Product';
 import db from '../models';
-import { camelCaseToSnakeCase } from '../utility';
+import { camelCaseToSnakeCase, paginate } from '../utility';
 import { Op } from 'sequelize';
-import { paginate } from '../utility/paginate';
+
 import { Request, Response } from 'express';
+import { IPaginateReturnValue, IRequestQueryParams, ISearchQuery, StatusCodes } from '../types';
+import { HttpError } from '../routes/helper/helper';
 
 export const getItemByKey = async (
   key: string,
   val: string | number
 ): Promise<ProductOutput[]> => {
   let keyVal = camelCaseToSnakeCase(key);
-  let data = await db.Product.findAll({
+  let data:ProductOutput[] = await db.Product.findAll({
     where: {
       [keyVal]: val,
     },
@@ -20,32 +22,36 @@ export const getItemByKey = async (
   return data;
 };
 
-export const listProducts = async(req:Request, res:Response) => {
+export const listProducts = async(req:Request<{}, {}, {}, IRequestQueryParams>, res:Response) => {
   try {
       // get the query params
       const { q, page, limit, order_by, order_direction } = req.query;
 
-      let search = {};
+      let search:ISearchQuery;
       let order = [];
 
       // add the search term to the search object
       if (q) {
           search = {
               where: {
-                  name: {
-                      [Op.like]: `%${q}%`
-                  }
+                 name : {
+                      [Op.iLike]: `%${q}%`
+                 }
               }
           };
       }
 
       // add the order parameters to the order
       if (order_by && order_direction) {
-          order.push([order_by, order_direction]);
+        order.push([camelCaseToSnakeCase(order_by), order_direction]);
       }
-
+      
       // paginate method that takes in the model, page, limit, search object, order and transform
-      const products = await paginate(db.Product, page, limit, search, order);
+      const products:IPaginateReturnValue = await paginate(db.Product, Number(page), Number(limit), search, order);
+
+      if((products.data.length) === 0) {
+        throw new HttpError("Product not found", 404)
+      }
 
       return res.status(200).send({
           success: true,
@@ -54,9 +60,9 @@ export const listProducts = async(req:Request, res:Response) => {
       })
   } catch (error) {
       console.log('Failed to fetch products', error);
-      return res.status(500).send({
+      return res.status(error.statusCode).send({
           success: false,
-          message: 'Failed to fetch products'
+          message: error.message
       })
   }
 }

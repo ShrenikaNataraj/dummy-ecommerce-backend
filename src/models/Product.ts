@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     desc: string;
     name: string;
     quantity: number;
+    catName: string;
     static associate(models) {
       // define association here
       Product.belongsTo(models.Category, {
@@ -46,6 +47,11 @@ module.exports = (sequelize, DataTypes) => {
           model: 'Category',
           key: 'catId',
         },
+      },
+      catName: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        field: 'cat_name',
       },
       quantity: {
         allowNull: false,

@@ -9,6 +9,7 @@ export interface IModalCategory {
 export interface IModalProduct {
   pId: number;
   catId: number;
+  catName: string;
   name: string;
   price: number;
   quantity: number;
@@ -50,6 +51,22 @@ export interface IPaginateReturnValue {
   total: number,
   limit: number,
   data: IModalProduct[]
+}
+
+export interface IRequestQueryParams {
+  q:string, 
+  page:number, 
+  limit:number, 
+  order_by:string, 
+  order_direction:string
+}
+
+export interface ISearchQuery {
+  where: {
+    name?: {
+        [Op.iLike]: string
+    }
+  }
 }
 
 export enum StatusCodes {
