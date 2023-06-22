@@ -59,7 +59,6 @@ export const listProducts = async(req:Request<{}, {}, {}, IRequestQueryParams>, 
           data: products
       })
   } catch (error) {
-      console.log('Failed to fetch products', error);
       return res.status(error.statusCode).send({
           success: false,
           message: error.message
