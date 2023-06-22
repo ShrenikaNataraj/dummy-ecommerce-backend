@@ -1,4 +1,5 @@
-import { IPaginateReturnValue } from "../types";
+import { HttpError } from "../routes/helper/helper";
+import { IPaginateReturnValue, StatusCodes } from "../types";
 
 export const paginate = async (model, pageSize, pageLimit, search = {}, order = []):Promise<IPaginateReturnValue> => {
     try {
@@ -33,7 +34,7 @@ export const paginate = async (model, pageSize, pageLimit, search = {}, order = 
             data: rows
         }
     } catch (error) {
-        console.log(error);
+        throw new HttpError('Something Went Wrong!!',StatusCodes.SERVER_ERROR)
     }
 }
 

@@ -9,7 +9,6 @@ categoryRoute.get('/category', async (req: Request, res: Response) => {
     const allCategories:CategoryOutput[] = await getAllCategory();
     res.json(allCategories);
   } catch (err) {
-    console.log(err);
     res.status(500).json(err);
   }
 });
