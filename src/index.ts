@@ -1,6 +1,7 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { routes } from './routes';
 
 const PORT = process.env.PORT || 3000;
 
@@ -14,13 +15,7 @@ app.use(express.json());
 // Configure cors policy
 app.use(cors());
 
-// Set up a API call with GET method
-app.get('/data', (req, res) => {
-  // Return some sample data as the response
-  res.json({
-    message: 'Hello, world!',
-  });
-});
+app.use('/', routes);
 
 // Start the server on port configured in .env (recommend port 8000)
 app.listen(process.env.PORT, () => {

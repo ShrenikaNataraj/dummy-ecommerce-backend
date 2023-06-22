@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "lib": ["es5", "es6"],
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "rootDir": "./src",
+    "outDir": "build",
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "downlevelIteration": true
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"],
+  "exclude": ["**/__mocks__/*", "build", "migrations", "**/__test__"]
+}
