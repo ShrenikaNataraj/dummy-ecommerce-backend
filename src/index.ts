@@ -2,8 +2,12 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { routes } from './routes';
+import { getItemByKey } from './services/Product';
 
-const PORT = process.env.PORT || 3000;
+const webSocketsServerPort = 8080;
+const webSocketsServer = require('websocket').server
+const http= require('http');
+const {v4 : uuidv4} = require('uuid')
 
 // Get environment variables
 dotenv.config();
@@ -17,7 +21,32 @@ app.use(cors());
 
 app.use('/', routes);
 
-// Start the server on port configured in .env (recommend port 8000)
-app.listen(process.env.PORT, () => {
-  console.log(`SERVER IS RUNNING AT PORT ${process.env.PORT}`);
+const server = http.createServer(app);
+server.listen(webSocketsServerPort);
+console.log('listening on 8080')
+
+const wsServer = new webSocketsServer({
+    httpServer: server
 });
+
+const clients ={}
+
+wsServer.on('request', (request)=>{
+const clientId = uuidv4();
+const connection = request.accept(null, request.origin);
+clients[clientId] = connection;
+console.log(request.origin)
+connection.on('message', async (message)=>{
+      console.log(message)
+
+      const response = await getItemByKey("pId", message.utf8Data);
+      console.log(response)
+      
+      
+      for(const key in clients)
+      {
+        clients[key].sendUTF(JSON.stringify(response[0]))
+        console.log(message.utf8Data)
+      }
+    })
+})

@@ -57,6 +57,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      bar_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      }
     });
 
     await queryInterface.createTable('OrderDetails', {

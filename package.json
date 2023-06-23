@@ -31,10 +31,13 @@
     "cors": "^2.8.5",
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
+    "http": "^0.0.1-security",
     "pg": "^8.11.0",
     "sequelize": "^6.32.0",
     "sqlite3": "^5.1.6",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "uuid": "^9.0.0",
+    "websocket": "^1.0.34"
   },
   "devDependencies": {
     "nodemon": "^2.0.22",
