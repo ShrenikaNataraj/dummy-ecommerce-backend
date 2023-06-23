@@ -4,6 +4,7 @@ import db from '../models';
 import { IOrderRequest, IOrderRequestEntity, StatusCodes } from '../types';
 import { getItemByKey } from './Product';
 import { HttpError } from '../routes/helper/helper';
+import { QueryTypes } from 'sequelize';
 
 const checkIfProductOutOfStock = async (products: IOrderRequestEntity[]) => {
   for (let product of products) {
@@ -87,7 +88,17 @@ export const getOrderDetails = async (
   orderId: number
 ): Promise<OrderItemOutput[]> => {
   try {
-    return await db.OrderItem.findAll({ where: { o_id: orderId }, raw: true });
+   return await db.sequelize.query(
+     `SELECT "OrderItem"."o_item_id" AS "oItemId", "OrderItem"."o_id" AS "oId",
+      "OrderItem"."p_id" AS "pId", "OrderItem"."quantity", "OrderItem"."price",
+      "Product"."name" AS "name" FROM "OrderItem" AS "OrderItem" LEFT OUTER JOIN
+      "Product" AS "Product" ON "OrderItem"."p_id" = "Product"."p_id"
+       WHERE "OrderItem"."o_id" = :orderId`,
+     {
+      replacements: { orderId: orderId },
+      type: QueryTypes.SELECT
+     }
+    );
   } catch (e) {
     throw new HttpError('Something went Wrong', StatusCodes.SERVER_ERROR);
   }
