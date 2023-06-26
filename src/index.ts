@@ -35,18 +35,13 @@ wsServer.on('request', (request)=>{
 const clientId = uuidv4();
 const connection = request.accept(null, request.origin);
 clients[clientId] = connection;
-console.log(request.origin)
-connection.on('message', async (message)=>{
-      console.log(message)
 
+connection.on('message', async (message)=>{
       const response = await getItemByKey("pId", message.utf8Data);
-      console.log(response)
-      
-      
+
       for(const key in clients)
       {
         clients[key].sendUTF(JSON.stringify(response[0]))
-        console.log(message.utf8Data)
       }
     })
 })
