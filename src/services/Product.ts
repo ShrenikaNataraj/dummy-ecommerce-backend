@@ -17,10 +17,15 @@ export const getItemByKey = async (
       [keyVal]: val,
     },
     raw: true,
+    attributes: {
+      exclude: ['barId']
+    }
   });
 
   return data;
 };
+
+// getItemByKey("pId",1)
 
 export const listProducts = async(req:Request<{}, {}, {}, IRequestQueryParams>, res:Response) => {
   try {

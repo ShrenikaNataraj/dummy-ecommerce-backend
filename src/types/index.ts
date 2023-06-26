@@ -14,6 +14,7 @@ export interface IModalProduct {
   price: number;
   quantity: number;
   desc: string;
+  barId: number;
 }
 
 export interface IModalOrderDetails {

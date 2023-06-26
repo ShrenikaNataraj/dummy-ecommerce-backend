@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     name: string;
     quantity: number;
     catName: string;
+    barId: number;
     static associate(models) {
       // define association here
       Product.belongsTo(models.Category, {
@@ -69,6 +70,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      barId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        field: 'bar_id',
+      }
     },
     {
       sequelize,
